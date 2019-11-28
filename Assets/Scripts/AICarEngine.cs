@@ -8,10 +8,15 @@ public class AICarEngine : MonoBehaviour
 	public float maxSteerAngle = 45f;
 	public WheelCollider wheelFL;
 	public WheelCollider wheelFR;
-	public float maxMotorTorque = 10000f;
+    public WheelCollider wheelRL;
+    public WheelCollider wheelRR;
+    public float maxMotorTorque = 10000f;
+    public float maxBreakTorque = 40000f;
 	public float currentSpeed;
 	public float maxSpeed = 130f;
 	public Vector3 centerOfMass;
+    public GameObject brakingLightOn;
+    public bool isBraking = false;
 
 	private List<Transform> nodes;
 	private int currentNode = 0;
@@ -37,6 +42,7 @@ public class AICarEngine : MonoBehaviour
         ApplySteer();
 		Drive();
 		CheckWaypointDistance();
+        Braking();
     }
 
 	void ApplySteer()
@@ -51,7 +57,7 @@ public class AICarEngine : MonoBehaviour
 	{
 		currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
-		if(currentSpeed < maxSpeed)
+		if(currentSpeed < maxSpeed && !isBraking)
 		{
 			wheelFL.motorTorque = maxMotorTorque;
 			wheelFR.motorTorque = maxMotorTorque;
@@ -77,4 +83,20 @@ public class AICarEngine : MonoBehaviour
 			}
 		}
 	}
+
+    private void Braking()
+    {
+        if(isBraking)
+        {
+            brakingLightOn.active = true;
+            wheelRL.brakeTorque = maxBreakTorque;
+            wheelRR.brakeTorque = maxBreakTorque;
+        }
+        else
+        {
+            brakingLightOn.active = false;
+            wheelRL.brakeTorque = 0;
+            wheelRR.brakeTorque = 0;
+        }
+    }
 }
