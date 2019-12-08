@@ -15,6 +15,9 @@ public class WallHitDetection : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-		controller.currentPoints -= 100;
+        if(!string.Equals(collision.gameObject.name, "FinishLine") && !string.Equals(collision.gameObject.name, "Street"))
+        {
+            controller.currentPoints -= 100;
+        }
 	}
 }

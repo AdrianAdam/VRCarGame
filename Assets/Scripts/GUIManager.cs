@@ -62,11 +62,6 @@ public class GUIManager : MonoBehaviour
 		SceneManager.LoadScene("Level9");
 	}
 
-	public void loadLevel10()
-	{
-		SceneManager.LoadScene("Level10");
-	}
-
 	public void quitGame()
 	{
 		Application.Quit();
